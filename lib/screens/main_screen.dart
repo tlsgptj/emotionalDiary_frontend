@@ -52,11 +52,11 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _buildButtonCard(Icons.edit, 'Write it', () {
-              Navigator.push(context, WriteItScreen() as Route<Object?>);
+              MaterialPageRoute(builder: (context) => WriteItScreen()),
             }),
             const SizedBox(height: 20),
             _buildButtonCard(Icons.archive, 'Archive it', () {
-              Navigator.push(context, archiveScreen() as Route<Object?>);
+              Navigator.push(context, ArchiveScreen() as Route<Object?>);
             }),
             const SizedBox(height: 20),
             _buildButtonCard(Icons.pie_chart, 'Check it', () {

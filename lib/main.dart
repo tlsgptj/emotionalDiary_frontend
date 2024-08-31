@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomeScreen(),
         '/write': (context) => WriteItScreen(),
-        '/archive': (context) => const archiveScreen(),
+        '/archive': (context) => const ArchiveScreen(),
         '/check': (context) => const Checkscreen()
       },
     );
