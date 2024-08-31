@@ -1,4 +1,7 @@
+import 'package:emotional_diary/screens/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class WriteItScreen extends StatefulWidget {
   @override
@@ -7,6 +10,7 @@ class WriteItScreen extends StatefulWidget {
 
 class _WriteItScreenState extends State<WriteItScreen> {
   DateTime _selectedDate = DateTime.now();
+  File? _image;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -15,14 +19,22 @@ class _WriteItScreenState extends State<WriteItScreen> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != _selectedDate)
+    if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
       });
+    }
   }
-  //걍 void랑 Future<void>랑 뭔차이임?
-  // void : 동기적으로 실행되는 함수
-  // Future<void> : 비동기적으로 실행되는 함수
+
+  Future<void> _pickImage() async {
+    final pickedFile =
+    await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +46,21 @@ class _WriteItScreenState extends State<WriteItScreen> {
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.home, color: Colors.black),
+            icon: const Icon(Icons.home, color: Colors.black),
             onPressed: () {
-              // 홈 버튼 눌렀을 때의 동작 추가
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+              );
             },
           ),
         ],
-        leading: IconButton(
-          icon: Icon(Icons.edit, color: Colors.black),
-          onPressed: () {
-            // Edit 버튼 눌렀을 때의 동작 추가
-          },
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 16.0),
+          child: Icon(
+            Icons.edit,
+            color: Colors.black,
+          ),
         ),
       ),
       body: Container(
@@ -76,10 +92,10 @@ class _WriteItScreenState extends State<WriteItScreen> {
                         const Text('date | ', style: TextStyle(fontSize: 16)),
                         Text(
                           "${_selectedDate.toLocal()}".split(' ')[0],
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
                         IconButton(
-                          icon: Icon(Icons.calendar_today),
+                          icon: const Icon(Icons.calendar_today),
                           onPressed: () => _selectDate(context),
                         ),
                       ],
@@ -108,7 +124,8 @@ class _WriteItScreenState extends State<WriteItScreen> {
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                          ), backgroundColor: Colors.grey[300],
+                          ),
+                          backgroundColor: Colors.grey[300],
                           padding: const EdgeInsets.symmetric(
                               horizontal: 40.0, vertical: 10.0),
                         ),
@@ -125,7 +142,7 @@ class _WriteItScreenState extends State<WriteItScreen> {
             const SizedBox(height: 20),
             TextButton(
               onPressed: () {
-                // 파일 가져오기 버튼 클릭 시 동작 추가
+                _pickImage(); // 이미지 선택 로직 호출
               },
               child: const Text(
                 'import file >>',
@@ -135,6 +152,10 @@ class _WriteItScreenState extends State<WriteItScreen> {
                 ),
               ),
             ),
+            const SizedBox(height: 20),
+            _image != null
+                ? Image.file(_image!, height: 200) // 선택된 이미지를 화면에 표시
+                : const Text('No image selected.'),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
