@@ -1,3 +1,6 @@
+import 'package:emotional_diary/screens/ArchiveScreen.dart';
+import 'package:emotional_diary/screens/checkScreen.dart';
+import 'package:emotional_diary/screens/writescreen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -49,15 +52,15 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _buildButtonCard(Icons.edit, 'Write it', () {
-              print('Write it button pressed');
+              Navigator.push(context, WriteItScreen() as Route<Object?>);
             }),
             const SizedBox(height: 20),
             _buildButtonCard(Icons.archive, 'Archive it', () {
-              print('Archive it button pressed');
+              Navigator.push(context, archiveScreen() as Route<Object?>);
             }),
             const SizedBox(height: 20),
             _buildButtonCard(Icons.pie_chart, 'Check it', () {
-              print('Check it button pressed');
+              Navigator.push(context, Checkscreen() as Route<Object?>);
             }),
           ],
         ),

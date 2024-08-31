@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/home': (context) => HomeScreen(),
-        '/write': (context) => const writeScreen(),
+        '/write': (context) => WriteItScreen(),
         '/archive': (context) => const archiveScreen(),
         '/check': (context) => const Checkscreen()
       },
