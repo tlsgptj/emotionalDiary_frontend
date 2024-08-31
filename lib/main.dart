@@ -1,4 +1,7 @@
+import 'package:emotional_diary/screens/ArchiveScreen.dart';
+import 'package:emotional_diary/screens/checkScreen.dart';
 import 'package:emotional_diary/screens/main_screen.dart';
+import 'package:emotional_diary/screens/writescreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,8 +23,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/home': (context) => HomeScreen(),
-        '/second': (context) => const SecondPage(),
-        '/third': (context) => const ThirdPage(),
+        '/write': (context) => const writeScreen(),
+        '/archive': (context) => const archiveScreen(),
+        '/check': (context) => const Checkscreen()
       },
     );
   }
