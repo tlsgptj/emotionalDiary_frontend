@@ -51,7 +51,7 @@ class ArchiveScreen extends StatelessWidget {
             _buildButtonCard(Icons.dashboard, 'Table view', () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => tableViewScreen()),
+                MaterialPageRoute(builder: (context) => ArchiveTableScreen()),
               );
             }),
             const SizedBox(height: 20),
