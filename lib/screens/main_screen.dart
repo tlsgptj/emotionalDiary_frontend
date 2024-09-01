@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _buildButtonCard(Icons.edit, 'Write it', () {
-              MaterialPageRoute(builder: (context) => WriteItScreen()),
+              MaterialPageRoute(builder: (context) => WriteItScreen());
             }),
             const SizedBox(height: 20),
             _buildButtonCard(Icons.archive, 'Archive it', () {
@@ -102,7 +102,7 @@ class HomeScreen extends StatelessWidget {
           ),
           actions: <Widget>[
             TextButton(
-              child: Image.asset('images/sissors.png'),//이거 X버튼으로 수정해야함
+              child: const Icon(Icons.close),//이거 X버튼으로 수정해야함
               onPressed: () {
                 Navigator.of(context).pop(); // 다이얼로그 닫기
               },

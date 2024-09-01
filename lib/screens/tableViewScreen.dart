@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ArchiveTableScreen extends StatelessWidget {
   @override
@@ -95,7 +96,7 @@ class ArchiveTableScreen extends StatelessWidget {
                   },
                 ),
                 IconButton(
-                  icon: const Icon(Icons.),
+                  icon: const FaIcon(FontAwesomeIcons.instagram),
                   onPressed: () {
                     // 인스타그램 공유 로직
                   },
