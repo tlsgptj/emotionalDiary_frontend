@@ -58,7 +58,7 @@ class ArchiveScreen extends StatelessWidget {
             _buildButtonCard(Icons.content_paste, 'Board view', () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => boardViewScreen()),
+                MaterialPageRoute(builder: (context) => EntryListScreen()),
               );
             }),
           ],

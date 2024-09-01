@@ -1,7 +1,10 @@
-import 'package:emotional_diary/screens/ArchiveScreen.dart';
-import 'package:emotional_diary/screens/checkScreen.dart';
 import 'package:emotional_diary/screens/writescreen.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'ArchiveScreen.dart';
+import 'checkScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -31,36 +34,36 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               title: const Text('Log in >>'),
               onTap: () {
-                Navigator.pop(context); // 드로어를 닫고
-                _showLoginDialog(context); // 로그인 다이얼로그를 표시
+                Navigator.pop(context);
+                _showLoginDialog(context);
               },
             ),
             ListTile(
               title: const Text('Sign in >>'),
               onTap: () {
-                Navigator.pop(context); // 드로어를 닫고
-                _showSigninDialog(context); // 회원가입 다이얼로그를 표시
+                Navigator.pop(context);
+                _showSigninDialog(context);
               },
             ),
           ],
         ),
       ),
       body: Container(
-        color: Colors.purple[50], // 전체 배경색
+        color: Colors.purple[50],
         padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _buildButtonCard(Icons.edit, 'Write it', () {
-              MaterialPageRoute(builder: (context) => WriteItScreen());
+              Navigator.push(context, MaterialPageRoute(builder: (context) => WriteItScreen()));
             }),
             const SizedBox(height: 20),
             _buildButtonCard(Icons.archive, 'Archive it', () {
-              Navigator.push(context, ArchiveScreen() as Route<Object?>);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const ArchiveScreen()));
             }),
             const SizedBox(height: 20),
             _buildButtonCard(Icons.pie_chart, 'Check it', () {
-              Navigator.push(context, Checkscreen() as Route<Object?>);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const Checkscreen()));
             }),
           ],
         ),
@@ -69,6 +72,10 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _showSigninDialog(BuildContext context) {
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -80,37 +87,50 @@ class HomeScreen extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const TextField(
-                decoration: InputDecoration(labelText: 'Email address'),
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(labelText: 'Email address'),
               ),
-              const TextField(
-                decoration: InputDecoration(labelText: 'Password'),
+              TextField(
+                controller: usernameController,
+                decoration: const InputDecoration(labelText: 'Username'),
+              ),
+              TextField(
+                controller: passwordController,
+                decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
-              ),
-              const TextField(
-                decoration: InputDecoration(labelText: 'Password check'),
-                obscureText: true,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // 다이얼로그 닫기
-                  _selectDate(context); // 날짜 선택 다이얼로그 호출
-                },
-                child: const Text('Birthday'),
               ),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: const Icon(Icons.close),//이거 X버튼으로 수정해야함
+              child: const Icon(Icons.close),
               onPressed: () {
-                Navigator.of(context).pop(); // 다이얼로그 닫기
+                Navigator.of(context).pop();
               },
             ),
-            TextButton(
+            ElevatedButton(
               child: const Text('Sign in'),
-              onPressed: () {
-                Navigator.of(context).pop(); // 이거 수정해야함 DB에 저장되는 로직으로
+              onPressed: () async {
+                final response = await http.post(
+                  Uri.parse('http://your-django-server-url/api/register/'),
+                  headers: <String, String>{
+                    'Content-Type': 'application/json; charset=UTF-8',
+                  },
+                  body: jsonEncode(<String, String>{
+                    'username': usernameController.text,
+                    'password': passwordController.text,
+                    'email': emailController.text,
+                  }),
+                );
+
+                if (response.statusCode == 201) {
+                  // 성공적으로 회원가입이 완료됨
+                  Navigator.of(context).pop();
+                } else {
+                  // 실패 처리
+                  print('Failed to register');
+                }
               },
             ),
           ],
@@ -119,19 +139,10 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != DateTime.now()) {
-      print('Selected Date: ${picked.toLocal()}');
-    }
-  }
-
   void _showLoginDialog(BuildContext context) {
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -142,27 +153,49 @@ class HomeScreen extends StatelessWidget {
           title: const Text('Welcome Back!'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            children: const <Widget>[
+            children: <Widget>[
               TextField(
-                decoration: InputDecoration(labelText: 'Email address'),
+                controller: usernameController,
+                decoration: const InputDecoration(labelText: 'Username'),
               ),
               TextField(
-                decoration: InputDecoration(labelText: 'Password'),
+                controller: passwordController,
+                decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
               ),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: Image.asset('images/sissors.png'),
+              child: const Icon(Icons.close),
               onPressed: () {
-                Navigator.of(context).pop(); // 다이얼로그 닫기
+                Navigator.of(context).pop();
               },
             ),
             ElevatedButton(
               child: const Text('Login'),
-              onPressed: () {
-                Navigator.of(context).pop(); // 이거 수정해야함 DB에서 정보 가져와서 로그인되는 로직으로
+              onPressed: () async {
+                final response = await http.post(
+                  Uri.parse('http://your-django-server-url/api/login/'),
+                  headers: <String, String>{
+                    'Content-Type': 'application/json; charset=UTF-8',
+                  },
+                  body: jsonEncode(<String, String>{
+                    'username': usernameController.text,
+                    'password': passwordController.text,
+                  }),
+                );
+
+                if (response.statusCode == 200) {
+                  // JWT 토큰을 받아옴
+                  final Map<String, dynamic> data = jsonDecode(response.body);
+                  final String token = data['access'];
+                  // 로그인 성공 처리
+                  Navigator.of(context).pop();
+                } else {
+                  // 실패 처리
+                  print('Failed to login');
+                }
               },
             ),
           ],
@@ -205,3 +238,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
