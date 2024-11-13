@@ -58,12 +58,12 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-  Widget _buildImageSection1(String title, String description, String ImageUrl) {
+  Widget _buildImageSection1(String title, String description) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Row(
         children: [
-          Expanded(child: Image.asset(src)),
+          Expanded(child: Image.asset("assets\images\pencil.png")),
           //사진 여기다 끼워넣음 될듯
           Expanded(
               child: Column(
@@ -89,11 +89,11 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Row(
         children: [
-          Expanded(child: Image.asset(src)),
+          Expanded(child: Image.asset("assets\images\computer.png")),
           //사진 여기다 끼워넣음 될듯
           Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
                     title,
@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Row(
         children: [
-          Expanded(child: Image.asset(src)),
+          Expanded(child: Image.asset("assets\images\pencil.png")),
           //사진 여기다 끼워넣음 될듯
           Expanded(
               child: Column(
@@ -143,7 +143,7 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Row(
         children: [
-          Expanded(child: Image.asset(src)),
+          Expanded(child: Image.asset("assets\images\computer.png")),
           //사진 여기다 끼워넣음 될듯
           Expanded(
               child: Column(
@@ -175,9 +175,9 @@ class HomeScreen extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 20),
-          _buildStep("Step 1", "Textmining", "PSYCLeD visually show the words you use frequently."),
-          _buildStep("Step 2", "Frequency Table", "You can see what you said in every situations, and timeline."),
-          _buildStep("Step 3", "Feedback", "If you recognized your feeling, get a productive feedback"),
+          _buildStep("Step 1", "Textmining", "PSYCLeD visually show the words you use frequently.", "assets\images\step1.png"),
+          _buildStep("Step 2", "Frequency Table", "You can see what you said in every situations, and timeline.", "assets\images\step2.png"),
+          _buildStep("Step 3", "Feedback", "If you recognized your feeling, get a productive feedback", "assets\images\step3.png"),
         ],
       ),
     );
@@ -189,22 +189,26 @@ class HomeScreen extends StatelessWidget {
         children: [
           Expanded(
               child: Image.asset(
-                //여기다 이미지 패트 넣으면 됨
+                imagePath,
+                fit: BoxFit.cover,
               ),
           ),
           SizedBox(width: 20),
-        ],
-      )
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "$step: $title",
-            style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            description,
-            style: TextStyle(color: Colors.white70, fontSize: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "$step: $title",
+                  style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  description,
+                  style: TextStyle(color: Colors.white70, fontSize: 16),
+                ),
+              ],
+            ),
           ),
         ],
       ),
