@@ -58,12 +58,12 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-  Widget _buildImageSection1(String title, String description) {
+  Widget _buildImageSection1(String title, String description, String ImageUrl) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Row(
         children: [
-          Expanded(child: Image.network(src)),
+          Expanded(child: Image.asset(src)),
           //사진 여기다 끼워넣음 될듯
           Expanded(
               child: Column(
@@ -89,7 +89,7 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Row(
         children: [
-          Expanded(child: Image.network(src)),
+          Expanded(child: Image.asset(src)),
           //사진 여기다 끼워넣음 될듯
           Expanded(
               child: Column(
@@ -143,7 +143,7 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Row(
         children: [
-          Expanded(child: Image.network(src)),
+          Expanded(child: Image.asset(src)),
           //사진 여기다 끼워넣음 될듯
           Expanded(
               child: Column(
