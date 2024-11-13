@@ -115,9 +115,3 @@ class ArchiveTableScreen extends StatelessWidget {
     );
   }
 }
-
-void main() {
-  runApp(MaterialApp(
-    home: ArchiveTableScreen(),
-  ));
-}

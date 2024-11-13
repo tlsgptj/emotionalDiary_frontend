@@ -1,239 +1,243 @@
-import 'package:emotional_diary/screens/writescreen.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-import 'ArchiveScreen.dart';
-import 'checkScreen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Explore your feelings;'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.deepPurple,
-              ),
-              child: const Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: const Text('Log in >>'),
-              onTap: () {
-                Navigator.pop(context);
-                _showLoginDialog(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Sign in >>'),
-              onTap: () {
-                Navigator.pop(context);
-                _showSigninDialog(context);
-              },
-            ),
-          ],
-        ),
-      ),
-      body: Container(
-        color: Colors.purple[50],
-        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 16.0),
+      backgroundColor: Colors.black,
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _buildButtonCard(Icons.edit, 'Write it', () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => WriteItScreen()));
-            }),
-            const SizedBox(height: 20),
-            _buildButtonCard(Icons.archive, 'Archive it', () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const ArchiveScreen()));
-            }),
-            const SizedBox(height: 20),
-            _buildButtonCard(Icons.pie_chart, 'Check it', () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const Checkscreen()));
-            }),
+          children: [
+            _buildHeader(),
+            _buildSection("Explore your feelings;", "We're here to hear", true),
+            _buildImageSection1("Draw the feelings you ever know!", "We make emotional tags from your texts, such as joy, sadness, etc."),
+            _buildImageSection2("Analyze your emotions deeply", "Find your emotions visually and statistically; You'll understand yourself better than ever."),
+            _buildHowItWorksSection(),
+            _buildEmotionAnalysisSection(),
+            _buildFooter(),
           ],
         ),
       ),
     );
   }
-
-  void _showSigninDialog(BuildContext context) {
-    final TextEditingController usernameController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+  Widget _buildHeader() {
+   return Padding(
+     padding: const EdgeInsets.all(20.0),
+     child: Row(
+       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+       children: [
+         Text(
+           "PSYCLeD",
+           style: TextStyle(color: Colors.white, fontSize: 24),
+         ),
+         ElevatedButton(onPressed: () {}, child: Text("Get Started")),
+       ],
+     ),
+   );
+  }
+  Widget _buildSection(String title, String subtitle, bool centerText) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 50.0),
+      child: Column(
+        children: [
+          Text(
+            title,
+            textAlign: centerText ? TextAlign.center : TextAlign.left,
+            style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
           ),
-          title: const Text('Hello, welcome here'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: 'Email address'),
-              ),
-              TextField(
-                controller: usernameController,
-                decoration: const InputDecoration(labelText: 'Username'),
-              ),
-              TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              ),
-            ],
+          Text(
+            subtitle,
+            textAlign: centerText ? TextAlign.center : TextAlign.left,
+            style: TextStyle(color: Colors.white70, fontSize: 18),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: const Icon(Icons.close),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ElevatedButton(
-              child: const Text('Sign in'),
-              onPressed: () async {
-                final response = await http.post(
-                  Uri.parse('http://your-django-server-url/api/register/'),
-                  headers: <String, String>{
-                    'Content-Type': 'application/json; charset=UTF-8',
-                  },
-                  body: jsonEncode(<String, String>{
-                    'username': usernameController.text,
-                    'password': passwordController.text,
-                    'email': emailController.text,
-                  }),
-                );
-
-                if (response.statusCode == 201) {
-                  // 성공적으로 회원가입이 완료됨
-                  Navigator.of(context).pop();
-                } else {
-                  // 실패 처리
-                  print('Failed to register');
-                }
-              },
-            ),
-          ],
-        );
-      },
+          SizedBox(height: 20),
+          ElevatedButton(onPressed: () {}, child: Text("Get Started")),
+        ],
+      ),
+    );
+  }
+  Widget _buildImageSection1(String title, String description) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40.0),
+      child: Row(
+        children: [
+          Expanded(child: Image.network(src)),
+          //사진 여기다 끼워넣음 될듯
+          Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    description,
+                    style: TextStyle(color: Colors.white70, fontSize: 16),
+                  ),
+                ],
+              )
+          )
+        ],
+      ),
+    );
+  }
+  Widget _buildImageSection2(String title, String description) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40.0),
+      child: Row(
+        children: [
+          Expanded(child: Image.network(src)),
+          //사진 여기다 끼워넣음 될듯
+          Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    description,
+                    style: TextStyle(color: Colors.white70, fontSize: 16),
+                  ),
+                ],
+              )
+          )
+        ],
+      ),
     );
   }
 
-  void _showLoginDialog(BuildContext context) {
-    final TextEditingController usernameController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          title: const Text('Welcome Back!'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextField(
-                controller: usernameController,
-                decoration: const InputDecoration(labelText: 'Username'),
-              ),
-              TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Icon(Icons.close),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ElevatedButton(
-              child: const Text('Login'),
-              onPressed: () async {
-                final response = await http.post(
-                  Uri.parse('http://your-django-server-url/api/login/'),
-                  headers: <String, String>{
-                    'Content-Type': 'application/json; charset=UTF-8',
-                  },
-                  body: jsonEncode(<String, String>{
-                    'username': usernameController.text,
-                    'password': passwordController.text,
-                  }),
-                );
-
-                if (response.statusCode == 200) {
-                  // JWT 토큰을 받아옴
-                  final Map<String, dynamic> data = jsonDecode(response.body);
-                  final String token = data['access'];
-                  // 로그인 성공 처리
-                  Navigator.of(context).pop();
-                } else {
-                  // 실패 처리
-                  print('Failed to login');
-                }
-              },
-            ),
-          ],
-        );
-      },
+  Widget _buildImageSection3(String title, String description) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40.0),
+      child: Row(
+        children: [
+          Expanded(child: Image.network(src)),
+          //사진 여기다 끼워넣음 될듯
+          Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    description,
+                    style: TextStyle(color: Colors.white70, fontSize: 16),
+                  ),
+                ],
+              )
+          )
+        ],
+      ),
     );
   }
 
-  Widget _buildButtonCard(IconData icon, String text, VoidCallback onPressed) {
-    return InkWell(
-      onTap: onPressed,
-      child: Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(20.0),
-          width: double.infinity,
-          child: Column(
-            children: <Widget>[
-              Icon(
-                icon,
-                size: 50,
-                color: Colors.black,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ],
+  Widget _buildImageSection4(String title, String description) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40.0),
+      child: Row(
+        children: [
+          Expanded(child: Image.network(src)),
+          //사진 여기다 끼워넣음 될듯
+          Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    description,
+                    style: TextStyle(color: Colors.white70, fontSize: 16),
+                  ),
+                ],
+              )
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHowItWorksSection() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40.0),
+      child: Column(
+        children: [
+          Text(
+            "How it works",
+            style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
           ),
+          SizedBox(height: 20),
+          _buildStep("Step 1", "Textmining", "PSYCLeD visually show the words you use frequently."),
+          _buildStep("Step 2", "Frequency Table", "You can see what you said in every situations, and timeline."),
+          _buildStep("Step 3", "Feedback", "If you recognized your feeling, get a productive feedback"),
+        ],
+      ),
+    );
+  }
+  Widget _buildStep(String step, String title, String description, String imagePath) {
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Expanded(
+              child: Image.asset(
+                //여기다 이미지 패트 넣으면 됨
+              ),
+          ),
+          SizedBox(width: 20),
+        ],
+      )
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "$step: $title",
+            style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            description,
+            style: TextStyle(color: Colors.white70, fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _buildEmotionAnalysisSection() {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 40.0),
+        child: Column(
+          children: [
+            Text("One more Thing, PSYCLeD allows you to sense emotions in text.",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            _buildImageSection3("Analyze your interviews", "Catch the emotions in conversations"),
+            _buildImageSection4("Emotions in literary works can be analyzed", "you analyze emotions in poetry, too"),
+          ],
         ),
+    );
+  }
+  Widget _buildFooter() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40.0),
+      child: Column(
+        children: [
+          Text(
+            "Now, it's your turn",
+            style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
+          ),
+          ElevatedButton(onPressed: () {}, child: Text("Get Started")
+          ),
+          SizedBox(height: 20),
+          Text("PSYCLeD", style: TextStyle(color: Colors.white70)),
+        ],
       ),
     );
   }

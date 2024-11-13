@@ -18,7 +18,7 @@ class _EntryListScreenState extends State<EntryListScreen> {
 
   Future<void> fetchEntries() async {
     final response = await http.get(
-      Uri.parse('http://your-django-server-url/api/entries/'),
+      Uri.parse('http://127.0.0.1:8000/api/blog-posts/'),
       headers: {
         'Authorization': 'Bearer YOUR_ACCESS_TOKEN',  // 사용자 토큰 필요
       },
@@ -131,8 +131,3 @@ class _EntryListScreenState extends State<EntryListScreen> {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: EntryListScreen(),
-  ));
-}
