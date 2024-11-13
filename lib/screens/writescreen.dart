@@ -1,4 +1,4 @@
-import 'package:emotional_diary/screens/main_screen.dart';
+import 'package:emotional_diary/screens/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';

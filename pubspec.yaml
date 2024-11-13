@@ -73,6 +73,9 @@ flutter:
      - assets\images\microphone.png
      - assets\images\computer.png
      - assets\images\books.png
+     - assets\images\Database.png
+     - assets\images\Archive.png
+     - assets\images\Pen.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -1,6 +1,6 @@
 import 'package:emotional_diary/screens/ArchiveScreen.dart';
 import 'package:emotional_diary/screens/checkScreen.dart';
-import 'package:emotional_diary/screens/main_screen.dart';
+import 'package:emotional_diary/screens/landing_screen.dart';
 import 'package:emotional_diary/screens/writescreen.dart';
 import 'package:flutter/material.dart';
 

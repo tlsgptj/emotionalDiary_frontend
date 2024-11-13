@@ -2,7 +2,7 @@ import 'package:emotional_diary/screens/boardViewScreen.dart';
 import 'package:emotional_diary/screens/tableViewScreen.dart';
 import 'package:flutter/material.dart';
 
-import 'main_screen.dart';
+import 'landing_screen.dart';
 import 'monthlyViewScreen.dart';
 
 class ArchiveScreen extends StatelessWidget {
