@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Row(
         children: [
-          Expanded(child: Image.network(src)),
+          Expanded(child: Image.asset(src)),
           //사진 여기다 끼워넣음 될듯
           Expanded(
               child: Column(
