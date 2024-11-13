@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Row(
         children: [
-          Expanded(child: Image.asset("assets\images\pencil.png")),
+          Expanded(child: Image.asset("assets\images\microphone.png")),
           //사진 여기다 끼워넣음 될듯
           Expanded(
               child: Column(
@@ -143,7 +143,7 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: Row(
         children: [
-          Expanded(child: Image.asset("assets\images\computer.png")),
+          Expanded(child: Image.asset("assets\images\books.png")),
           //사진 여기다 끼워넣음 될듯
           Expanded(
               child: Column(
