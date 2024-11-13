@@ -1,5 +1,6 @@
 import 'package:emotional_diary/screens/ArchiveScreen.dart';
 import 'package:emotional_diary/screens/LoginScreen.dart';
+import 'package:emotional_diary/screens/SignUpScreen.dart';
 import 'package:emotional_diary/screens/checkScreen.dart';
 import 'package:emotional_diary/screens/landing_screen.dart';
 import 'package:emotional_diary/screens/writescreen.dart';
@@ -31,6 +32,8 @@ class MyApp extends StatelessWidget {
         '/check': (context) => const Checkscreen(),
         '/main': (context) => MainScreen(),
         '/login': (context) => LoginScreen(),
+        '/SignUp': (context) => SignUpscreen(),
+
       },
     );
   }
