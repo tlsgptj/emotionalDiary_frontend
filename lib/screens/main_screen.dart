@@ -147,7 +147,7 @@ class HomeScreen extends StatelessWidget {
           //사진 여기다 끼워넣음 될듯
           Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
                     title,
@@ -188,10 +188,13 @@ class HomeScreen extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(40),
               child: Image.asset(
                 imagePath,
                 fit: BoxFit.cover,
               ),
+            ),
           ),
           SizedBox(width: 20),
           Expanded(
@@ -247,3 +250,5 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+// 넣어야 할 기능 로그인 페이지로 이동하는 기능
+// 배경 검은색, 땡땡이 무늬 넣어야함
