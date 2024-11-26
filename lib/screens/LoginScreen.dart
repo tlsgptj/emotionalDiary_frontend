@@ -1,6 +1,116 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:convert'; //JSON 변환을 위한 패키지
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  // 사용자 입력값을 저장하기 위한 TextEditingController
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  // 로딩 상태 관리
+  bool _isLoading = false;
+
+  // Django API 호출
+  Future<void> _login() async {
+    final url = Uri.parse('https://example.com/api/login/'); // Django API URL
+    final body = jsonEncode({
+      'email': _emailController.text,
+      'password': _passwordController.text,
+    });
+
+    setState(() {
+      _isLoading = true; // 로딩 상태 활성화
+    });
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        // 예: 토큰 저장 또는 다음 화면으로 이동
+        print('Login Successful: ${data['token']}');
+        // TODO: Navigator를 사용하여 다른 화면으로 이동
+      } else {
+        // 에러 처리
+        final errorData = jsonDecode(response.body);
+        print('Error: ${errorData['detail']}');
+        _showErrorDialog('Login failed: ${errorData['detail']}');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      _showErrorDialog('An unexpected error occurred.');
+    } finally {
+      setState(() {
+        _isLoading = false; // 로딩 상태 비활성화
+      });
+    }
+  }
+  Future<void> _googleLogin() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        setState(() {
+          _isLoading = false;
+        });
+        return; //사용자가 로그인 취소
+      }
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final String? idToken = googleAuth.idToken;
+
+      if (idToken != null) {
+        final response = await http.post(
+          Uri.parse('https://example.com/api/google-login/'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'id_token': idToken}),
+        );
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          print('Google Login');
+        } else {
+          final errorData = jsonDecode(response.body);
+          _showErrorDialog('Google Login Failed');
+        }
+      }
+    } catch (e) {
+      _showErrorDialog("An unexpected error occurred.");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  // 에러 다이얼로그 표시
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

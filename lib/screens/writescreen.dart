@@ -45,6 +45,9 @@ class WriteItScreen extends StatelessWidget {
                     ),
                   ),
                   //DB랑 연결해서 오늘 날짜로 바꿔야할듯
+                  Container(
+                    //디자이너가 아직 안만든 관계로 보류
+                  )
                 ],
               ),
             ),
